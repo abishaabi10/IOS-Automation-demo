@@ -1,0 +1,229 @@
+package iosDemo;
+
+import java.time.Duration;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import io.appium.java_client.ios.IOSDriver;
+
+public class Main_class {
+
+    public static IOSDriver driver;
+    WebDriverWait wait;
+
+    public WebElement find_Element(String type, String value) {
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+        switch (type) {
+
+        case "id":
+            return driver.findElement(By.id(value));// 1
+
+        case "name":
+            return driver.findElement(By.name(value));// 2
+
+        case "class_name":
+            return driver.findElement(By.className(value));// 3
+        case "link_text":
+            return driver.findElement(By.linkText(value));// 4
+        case "partial text":
+            return driver.findElement(By.partialLinkText(value));// 5
+        case "x_path":
+            System.out.println("xpath");
+            return driver.findElement(By.xpath(value));// 6
+
+        case "css_selector":
+            driver.findElement(By.cssSelector(value));// 7
+        case "tag_name":
+            return driver.findElement(By.tagName(value));// 8
+        default:
+            System.err.println("The error occur");
+            break;
+
+        }
+        return null;
+    }
+
+    public void click(WebElement element) {
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        WebElement click_action = wait.until(ExpectedConditions.elementToBeClickable(element));
+        System.out.println("click");
+        click_action.click();
+
+    }
+
+}
+package pac_01;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.testng.annotations.Test;
+
+import io.appium.java_client.ios.IOSDriver;
+import iosDemo.Main_class;
+
+public class Calculator_testing extends Main_class{
+    
+    @Test(priority = 2)
+    public void add()
+    {
+    WebElement value_1=find_Element("x_path","//XCUIElementTypeButton[@name=\"1\"]");
+    
+    click(value_1);
+    
+    WebElement add=find_Element("x_path","//XCUIElementTypeButton[@name=\"add\"]");
+    click(add);
+    
+    
+    WebElement value_2=find_Element("x_path","//XCUIElementTypeButton[@name=\"5\"]");
+    click(value_2);
+    
+
+    WebElement equal=find_Element("x_path","//XCUIElementTypeButton[@name=\"equals\"]");//equal
+    equal.click();
+    
+    WebElement value= find_Element("x_path","//XCUIElementTypeStaticText[@name=\"Result\"]");//result
+    String val=value.getText();
+    
+    
+    System.out.println("The addition value is  :" + val );
+        
+    }
+    @Test(priority = 3)
+    public void sub()
+    {
+        WebElement value_1=find_Element("x_path","//XCUIElementTypeButton[@name=\"1\"]");
+        
+        click(value_1);
+        
+        WebElement add=find_Element("x_path","//XCUIElementTypeButton[@name=\"subtract\"]");
+        click(add);
+        
+        
+        WebElement value_2=find_Element("x_path","//XCUIElementTypeButton[@name=\"5\"]");
+        click(value_2);
+        
+
+        WebElement equal=find_Element("x_path","//XCUIElementTypeButton[@name=\"equals\"]");//equal
+        equal.click();
+        
+        WebElement value= find_Element("x_path","//XCUIElementTypeStaticText[@name=\"Result\"]");//result
+        String val=value.getText();
+        
+        
+        System.out.println("The addition value is  :" + val );
+        
+    }
+@Test(priority = 4)
+    public void mul()
+    {
+    WebElement value_1=find_Element("x_path","//XCUIElementTypeButton[@name=\"1\"]");
+        
+        click(value_1);
+        
+        WebElement add=find_Element("x_path","//XCUIElementTypeButton[@name=\"multiply\"]");
+        click(add);
+        
+        
+        WebElement value_2=find_Element("x_path","//XCUIElementTypeButton[@name=\"5\"]");
+        click(value_2);
+        
+
+        WebElement equal=find_Element("x_path","//XCUIElementTypeButton[@name=\"equals\"]");//equal
+        equal.click();
+        
+        WebElement value= find_Element("x_path","//XCUIElementTypeStaticText[@name=\"Result\"]");//result
+        String val=value.getText();
+        
+        
+        System.out.println("The addition value is  :" + val );
+        
+    }
+    @Test(priority = 5)
+    public void div()
+    {
+    WebElement value_1=find_Element("x_path","//XCUIElementTypeButton[@name=\"1\"]");
+        
+        click(value_1);
+        
+        WebElement add=find_Element("x_path","//XCUIElementTypeButton[@name=\"divide\"]");
+        click(add);
+        
+        
+        WebElement value_2=find_Element("x_path","//XCUIElementTypeButton[@name=\"5\"]");
+        click(value_2);
+        
+
+        WebElement equal=find_Element("x_path","//XCUIElementTypeButton[@name=\"equals\"]");//equal
+        equal.click();
+        
+        WebElement value= find_Element("x_path","//XCUIElementTypeStaticText[@name=\"Result\"]");//result
+        String val=value.getText();
+        
+        
+        System.out.println("The addition value is  :" + val );
+        
+    }
+    @Test(priority = 1)
+    public void main() throws MalformedURLException
+    {
+        DesiredCapabilities cap=new DesiredCapabilities();
+        cap.setCapability("platformName","iOS");
+        cap.setCapability("automationName","XCUITest");
+        cap.setCapability("udid","f5bb7ad592d34531f740769c90a08b0fc1cded54");
+        
+        cap.setCapability("deviceName","phone1");
+        URL url=new URL("http://localhost:4723/");
+       
+       cap.setCapability("bundleId","com.apple.calculator");
+        driver=new IOSDriver(url,cap);
+        
+        
+      
+        System.out.println("Successfully add the value");
+       
+       
+    }
+    
+
+}
+
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>launch </groupId>
+  <artifactId>Mobile_calculator</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <dependencies>
+      <!-- https://mvnrepository.com/artifact/io.appium/java-client -->
+<dependency>
+    <groupId>io.appium</groupId>
+    <artifactId>java-client</artifactId>
+    <version>9.2.2</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
+<dependency>
+    <groupId>org.seleniumhq.selenium</groupId>
+    <artifactId>selenium-java</artifactId>
+    <version>4.21.0</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.testng/testng -->
+<dependency>
+    <groupId>org.testng</groupId>
+    <artifactId>testng</artifactId>
+    <version>7.10.2</version>
+    <scope>test</scope>
+</dependency>
+
+  </dependencies>
+</project>
